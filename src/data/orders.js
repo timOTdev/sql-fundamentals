@@ -40,7 +40,14 @@ const DEFAULT_ORDER_COLLECTION_OPTIONS = Object.freeze(
  * @param {Partial<OrderCollectionOptions>} opts Options for customizing the query
  * @returns {Promise<Order[]>} the orders
  */
-export async function getAllOrders(opts = {}) {
+/*
+getAllOrders();
+getAllOrders({ sort: 'shippeddate', order: 'desc'});
+getAllOrders({ sort: 'customerid', order: 'asc' });
+getAllOrders({ page: 3, perPage: 25 });
+getCustomerOrders('ALFKI', { page: 5, perPage: 10 });
+*/
+export async function getAllOrders(opts = {}, whereClause = '') {
   // Combine the options passed into the function with the defaults
 
   /** @type {OrderCollectionOptions} */
@@ -50,9 +57,21 @@ export async function getAllOrders(opts = {}) {
   };
 
   const db = await getDb();
+  let sortClause = '';
+  let paginationClause = '';
+
+  if (options.sort && options.order) {
+    sortClause = `ORDER BY ${options.sort} ${options.order.toUpperCase()}`;
+  }
+  if (typeof options.page !== 'undefined' && options.perPage) {
+    paginationClause = `LIMIT ${options.perPage} OFFSET ${(options.page - 1) * options.perPage}`;
+  }
+
   return await db.all(sql`
 SELECT ${ALL_ORDERS_COLUMNS.join(',')}
-FROM CustomerOrder`);
+FROM CustomerOrder ${whereClause}
+${sortClause}
+${paginationClause}`);
 }
 
 /**
@@ -61,8 +80,15 @@ FROM CustomerOrder`);
  * @param {Partial<OrderCollectionOptions>} opts Options for customizing the query
  */
 export async function getCustomerOrders(customerId, opts = {}) {
+  /** @type {OrderCollectionOptions} */
+
   // ! This is going to retrieve ALL ORDERS, not just the ones that belong to a particular customer. We'll need to fix this
-  return getAllOrders(opts);
+  let options = {
+    ...{ page: 1, perPage: 20, sort: 'shippeddate', order: 'asc' },
+    ...opts
+  };
+
+  return getAllOrders(options, `WHERE customerid = '${customerId}'`);
 }
 
 /**
