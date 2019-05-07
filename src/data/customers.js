@@ -28,8 +28,13 @@ export async function getAllCustomers(options = {}) {
     lower(contactname) LIKE lower('%${options.filter}%')`;
   }
   return await db.all(sql`
-SELECT ${ALL_CUSTOMERS_COLUMNS.join(',')}
-FROM Customer ${whereClause}`);
+SELECT ${ALL_CUSTOMERS_COLUMNS.map(x => `c.${x}`).join(',')},
+  count(co.id) as ordercount
+FROM Customer AS c
+LEFT JOIN CustomerOrder AS co ON co.customerid = c.id
+${whereClause}
+GROUP BY c.id
+`);
 }
 
 /**
