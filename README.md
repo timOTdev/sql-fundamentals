@@ -1,7 +1,7 @@
 <p align='center'>
   <a href="https://mike.works" target='_blank'>
     <img height=40 src='https://assets.mike.works/img/login_logo-33a9e523d451fb0d902f73d5452d4a0b.png' />
-  </a> 
+  </a>
 </p>
 <p align='center'>
   <a href="https://mike.works/course/sql-fundamentals-ad811af" target='_blank'>
@@ -14,7 +14,7 @@
   </a>
 </p>
 <p align='center'>
- 
+
   <a href="https://travis-ci.org/mike-works/sql-fundamentals?branch=solutions-pro" title="Build Status">
     <img title="Build Status" src="https://travis-ci.org/mike-works/sql-fundamentals.svg?branch=solutions-pro"/>
   </a>
@@ -26,7 +26,9 @@
 This is the example project used for the <a title="Mike.Works" href="https://mike.works">Mike.Works</a> <a title="SQL Fundamentals" href="https://mike.works/course/sql-fundamentals-ad811af">SQL Fundamentals</a> and <a title="Professional SQL" href="https://mike.works/course/professional-sql-c9c7184">Professional SQL</a> courses.
 </p>
 
-# Course outline and slides
+# 0152_sql_fundamentals_FEM
+
+## Course outline and slides
 
 - [View course outline here](https://mike.works/course/sql-fundamentals-ad811af)
 - [View slides here](https://docs.mike.works/sql-slides)
